@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en-SG">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="FinFolio private local financial portfolio and planning dashboard">
+    <title>FinFolio - Personal finance centre</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="wordmark">FinFolio</div>
+        <div class="topbar-actions">
+          <span id="save-status" class="save-status" role="status">Ready to save locally</span>
+          <button id="theme-toggle" class="icon-button" type="button" aria-label="Toggle colour theme">Theme</button>
+        </div>
+      </header>
+
+      <div class="app-layout">
+        <aside class="sidebar">
+          <div class="sidebar-label">Your money</div>
+          <nav class="tab-nav" aria-label="Primary navigation">
+            <button class="tab-button active" data-tab="overview" type="button" aria-selected="true"><span class="tab-icon">Home</span><span>Overview</span></button>
+            <button class="tab-button" data-tab="portfolio" type="button" aria-selected="false"><span class="tab-icon">Port</span><span>Portfolio</span></button>
+            <button class="tab-button" data-tab="growth" type="button" aria-selected="false"><span class="tab-icon">Grow</span><span>Potential growth</span></button>
+            <button class="tab-button" data-tab="fire" type="button" aria-selected="false"><span class="tab-icon">FIRE</span><span>FIRE planner</span></button>
+            <button class="tab-button" data-tab="settings" type="button" aria-selected="false"><span class="tab-icon">Set</span><span>Settings</span></button>
+          </nav>
+          <div class="sidebar-footer">
+            <div class="secure-line"><span class="secure-dot"></span>Local and private</div>
+            <p>Your entries stay in this browser unless you export a backup.</p>
+          </div>
+        </aside>
+
+        <main class="main-content">
+          <section class="tab-panel active" id="tab-overview" data-panel="overview" aria-labelledby="overview-title">
+            <div class="hero-row">
+              <div>
+                <div class="greeting-line"><h1 id="overview-title">Good day,</h1><input id="profile-name" class="name-input" type="text" maxlength="32" placeholder="Your name" aria-label="Your name"></div>
+                <p class="subheading">Your financial picture, in one calm place.</p>
+              </div>
+              <div class="hero-meta">All values in Singapore dollars<br><span id="today-label"></span></div>
+            </div>
+
+            <div class="metric-grid">
+              <article class="metric-card metric-primary"><span class="metric-label">Total value</span><strong id="metric-total">S$0</strong><span id="metric-total-note" class="metric-note">Savings plus investments</span></article>
+              <article class="metric-card metric-teal"><span class="metric-label">Available savings</span><strong id="metric-savings">S$0</strong><span id="metric-savings-note" class="metric-note">Across 0 accounts</span></article>
+              <article class="metric-card metric-dark"><span class="metric-label">Invested</span><strong id="metric-investments">S$0</strong><span id="metric-investments-note" class="metric-note">0 holdings tracked</span></article>
+            </div>
+
+            <section class="panel projection-panel">
+              <div class="panel-heading"><div><h2>Potential growth projection</h2><p>Illustrative path from your current inputs.</p></div><span class="info-badge">Projection only</span></div>
+              <div class="chart-row"><svg id="overview-chart" class="line-chart" viewBox="0 0 640 180" role="img" aria-label="Illustrative portfolio projection"></svg><div class="chart-callouts"><div><span>Today</span><strong id="overview-chart-now">S$0</strong></div><div><span>Retirement age</span><strong id="overview-chart-target">S$0</strong></div><p>Actual returns will vary.</p></div></div>
+            </section>
+
+            <div class="panel-grid overview-grid">
+              <section class="panel goal-panel">
+                <div class="panel-heading"><div><h2>Retirement goal</h2><p id="overview-goal-source">FIRE planner target</p></div><span id="overview-goal-badge" class="status-badge">Planning</span></div>
+                <div class="goal-summary"><div class="goal-ring" id="overview-goal-ring"><span id="overview-goal-percent">0%</span></div><div><strong id="overview-goal-value">S$0</strong><p id="overview-goal-copy">Set a target in the FIRE planner.</p></div></div>
+                <div class="progress-track"><span id="overview-goal-progress"></span></div>
+                <div class="quick-actions"><button class="quiet-button" type="button" data-tab-target="portfolio">Add holding</button><button class="quiet-button" type="button" data-tab-target="growth">Review growth</button><button class="quiet-button" type="button" data-action="export">Export view</button></div>
+              </section>
+            </div>
+
+          </section>
+
+          <section class="tab-panel" id="tab-portfolio" data-panel="portfolio" aria-labelledby="portfolio-title" hidden>
+            <div class="page-heading"><div><span class="eyebrow">Holdings</span><h1 id="portfolio-title">Portfolio</h1><p>Track what you own across brokerages and asset classes.</p></div><button class="primary-button" type="button" data-action="add-holding">Add holding</button></div>
+            <div class="metric-grid compact-grid"><article class="metric-card metric-primary"><span class="metric-label">Portfolio value</span><strong id="portfolio-total">S$0</strong><span class="metric-note">Current market value</span></article><article class="metric-card metric-dark"><span class="metric-label">Cost basis</span><strong id="portfolio-cost">S$0</strong><span class="metric-note">Entered cost basis</span></article><article class="metric-card metric-teal"><span class="metric-label">Unrealised return</span><strong id="portfolio-return">S$0</strong><span class="metric-note">Market value minus cost</span></article></div>
+            <section class="panel portfolio-chart-panel"><div class="panel-heading"><div><h2>Allocation by asset class</h2><p>Current portfolio inputs, grouped for a quick read.</p></div><span class="info-badge">Live breakdown</span></div><div class="portfolio-chart-layout"><svg id="portfolio-pie" class="pie-chart" viewBox="0 0 120 120" role="img" aria-label="Portfolio allocation pie chart"></svg><div id="portfolio-legend" class="portfolio-legend"></div></div></section>
+            <section class="panel table-panel"><div class="table-scroll"><table class="data-table"><thead><tr><th>Brokerage</th><th>Asset class</th><th>Ticker</th><th>Quantity</th><th>Total value</th><th>Cost basis</th><th>Allocation</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody id="holdings-list"></tbody></table></div><div id="portfolio-empty" class="empty-state" hidden>No holdings yet. Add your first holding above.</div></section>
+          </section>
+
+          <section class="tab-panel" id="tab-growth" data-panel="growth" aria-labelledby="growth-title" hidden>
+            <div class="page-heading"><div><span class="eyebrow">Scenario builder</span><h1 id="growth-title">Potential growth</h1><p>Compare lump sum and monthly DCA outcomes in nominal and today's dollars.</p></div><span class="info-badge">Illustrative projection</span></div>
+            <div class="calculator-layout"><section class="panel input-panel"><div class="panel-heading"><div><h2>Your assumptions</h2><p>Change any input to update the projection.</p></div></div><div class="form-grid"><label class="field"><span>Starting amount</span><div class="input-wrap"><span>S$</span><input id="growth-initial" data-growth-field="initial" type="number" min="0" step="100" inputmode="decimal"><span class="unit">lump sum</span></div></label><label class="field"><span>Monthly contribution</span><div class="input-wrap"><span>S$</span><input id="growth-monthly" data-growth-field="monthlyContribution" type="number" min="0" step="50" inputmode="decimal"><span class="unit">DCA</span></div></label><label class="field"><span>Expected annual return</span><div class="input-wrap"><input id="growth-return" data-growth-field="annualReturn" type="number" min="-99" max="100" step="0.1" inputmode="decimal"><span>%</span></div></label><label class="field"><span>Inflation reference</span><div class="input-wrap"><input id="growth-inflation" data-growth-field="inflation" type="number" min="0" max="100" step="0.1" inputmode="decimal"><span>%</span></div></label><label class="field"><span>Time horizon</span><div class="input-wrap"><input id="growth-years" data-growth-field="years" type="number" min="0" max="100" step="1" inputmode="numeric"><span>years</span></div></label></div><div class="source-box"><div><span class="source-label">Singapore CPI reference</span><strong id="cpi-inline-value">Not refreshed</strong><p id="cpi-inline-status">Use the official reference as a guide, not a forecast.</p></div><button class="quiet-button" type="button" data-action="refresh-cpi">Refresh CPI</button></div></section><section class="panel results-panel"><div class="panel-heading"><div><h2>Projected outcome</h2><p id="growth-result-note">At the end of your time horizon</p></div></div><div class="result-stack"><div class="result-main"><span>Nominal value</span><strong id="growth-nominal">S$0</strong></div><div class="result-line"><span>Today's dollars</span><strong id="growth-real">S$0</strong></div><div class="result-line"><span>Total contributions</span><strong id="growth-contributions">S$0</strong></div><div class="result-line"><span>Investment growth</span><strong id="growth-profit">S$0</strong></div></div><svg id="growth-chart" class="line-chart tall-chart" viewBox="0 0 640 220" role="img" aria-label="Potential growth projection"></svg><p class="disclaimer">Projection only. Returns are not guaranteed and inflation may differ from this reference.</p></section></div>
+          </section>
+
+          <section class="tab-panel" id="tab-fire" data-panel="fire" aria-labelledby="fire-title" hidden>
+            <div class="page-heading"><div><span class="eyebrow">Retirement planning</span><h1 id="fire-title">FIRE planner</h1><p>Use a rule of thumb as a planning starting point, then adjust for your own horizon.</p></div><span class="info-badge">25x rule</span></div>
+            <div class="calculator-layout"><section class="panel input-panel"><div class="panel-heading"><div><h2>Your plan</h2><p>All amounts are annual unless labelled otherwise.</p></div></div><div class="form-grid"><label class="field"><span>Current age</span><div class="input-wrap"><input id="fire-current-age" data-fire-field="currentAge" type="number" min="0" max="120" step="1" inputmode="numeric"><span>years</span></div></label><label class="field"><span>Retirement age</span><div class="input-wrap"><input id="fire-retirement-age" data-fire-field="retirementAge" type="number" min="1" max="120" step="1" inputmode="numeric"><span>years</span></div></label><label class="field"><span>Annual retirement spending</span><div class="input-wrap"><span>S$</span><input id="fire-spending" data-fire-field="annualSpending" type="number" min="0" step="1000" inputmode="decimal"></div></label><label class="field"><span>Current invested assets</span><div class="input-wrap"><span>S$</span><input id="fire-invested" data-fire-field="investedAssets" type="number" min="0" step="1000" inputmode="decimal"></div></label><label class="field"><span>Expected annual return</span><div class="input-wrap"><input id="fire-return" data-fire-field="annualReturn" type="number" min="-99" max="100" step="0.1" inputmode="decimal"><span>%</span></div></label><label class="field"><span>Inflation reference</span><div class="input-wrap"><input id="fire-inflation" data-fire-field="inflation" type="number" min="0" max="100" step="0.1" inputmode="decimal"><span>%</span></div></label><label class="field"><span>Withdrawal rate</span><div class="input-wrap"><input id="fire-withdrawal" data-fire-field="withdrawalRate" type="number" min="0.1" max="20" step="0.1" inputmode="decimal"><span>%</span></div></label></div><div class="method-note"><strong>How the 4% rule works</strong><p>Annual spending divided by the withdrawal rate gives a planning target. At 4%, that is 25 times annual spending. Historical studies do not guarantee future outcomes, and longer retirements may call for a more conservative rate.</p></div></section><section class="panel results-panel"><div class="panel-heading"><div><h2>Target outcome</h2><p>Use this as a planning guide.</p></div></div><div class="result-stack"><div class="result-main"><span>Estimated FIRE target</span><strong id="fire-target">S$0</strong></div><div class="result-line"><span>Current invested assets</span><strong id="fire-current">S$0</strong></div><div class="result-line"><span>Additional assets needed</span><strong id="fire-gap">S$0</strong></div><div class="result-line"><span>Years to target age</span><strong id="fire-years">0</strong></div></div><button id="apply-fire-goal" class="primary-button full-button" type="button">Apply target to Overview</button><svg id="fire-chart" class="line-chart tall-chart" viewBox="0 0 640 220" role="img" aria-label="Illustrative FIRE target projection"></svg><p class="disclaimer">Planning heuristic only. Review taxes, CPF, healthcare, sequence risk, and changing spending separately.</p></section></div>
+          </section>
+
+          <section class="tab-panel" id="tab-settings" data-panel="settings" aria-labelledby="settings-title" hidden>
+            <div class="page-heading"><div><span class="eyebrow">Control centre</span><h1 id="settings-title">Settings</h1><p>Keep your workspace private, portable, and easy to reset.</p></div></div>
+            <div class="settings-grid"><section class="panel"><div class="panel-heading"><div><h2>Appearance</h2><p>Dark mode is the primary FinFolio experience.</p></div></div><div class="theme-options"><label class="theme-option"><input type="radio" name="theme" value="dark"><span><strong>Dark mode</strong><small>Deep navy and electric accents</small></span></label><label class="theme-option"><input type="radio" name="theme" value="light"><span><strong>Light mode</strong><small>Presentation-friendly surfaces</small></span></label></div></section><section class="panel"><div class="panel-heading"><div><h2>Data portability</h2><p>Nothing is uploaded by FinFolio.</p></div></div><div class="settings-actions"><button class="primary-button" type="button" data-action="export">Export JSON backup</button><label class="secondary-button file-button">Import JSON backup<input id="import-file" type="file" accept="application/json"></label><button class="danger-button" type="button" data-action="reset">Reset local data</button></div></section><section class="panel settings-account-panel"><div class="panel-heading"><div><h2>Accounts</h2><p>Edit balances and rates without crowding the overview.</p></div><button class="text-button" type="button" data-action="add-account">Add account</button></div><div id="overview-accounts" class="account-list"></div></section><section class="panel source-panel"><div class="panel-heading"><div><h2>Official reference</h2><p>Singapore CPI is fetched on demand from SingStat.</p></div><button class="quiet-button" type="button" data-action="refresh-cpi">Refresh CPI</button></div><div id="cpi-settings-status" class="source-status">Not refreshed in this session.</div><a href="https://tablebuilder.singstat.gov.sg/table/TS/M213752" target="_blank" rel="noreferrer">Open SingStat CPI table</a><p class="small-print">If the source is unavailable, the calculator remains usable and will identify any saved reference as stale.</p></section><section class="panel source-panel"><div class="panel-heading"><div><h2>Methodology</h2><p>Simple assumptions, visible in the interface.</p></div></div><ul class="method-list"><li>Compound growth uses monthly compounding.</li><li>FIRE target equals annual spending divided by withdrawal rate.</li><li>Charts are illustrative and not investment advice.</li><li>Local data is stored under this browser origin only.</li></ul></section></div>
+          </section>
+        </main>
+      </div>
+    </div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
